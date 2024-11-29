@@ -19,6 +19,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Menambahkan admin dengan password yang di-hash menggunakan bcrypt
+        AkunAdminBank::create([
+            'username_admin' => 'admin2',
+            'password_admin' => Hash::make('12345678'),  // Password di-hash dengan bcrypt
+        ]);
+
+        AkunAdminInstansi::create([
+            'no_telp' => '081534567231',
+            'email' => 'univ@gmail.com',
+            'username_instansi' => 'admin1',
+            'password_instansi' => Hash::make('12345675'),  // Password di-hash dengan bcrypt
+        ]);
+        // Universitas::create([
+        //     'nama_univ' => 'UKDW',
+        //     'alamat_univ' => 'Jl.Dagen',
+        //     'telp_univ' => '08826832743279',
+        //     'jenis_univ' => '08826832743279',
+        //     'email_univ' => '08826832743279',
+        // ]);
+
         // AkunAdminBank::create([
         //     'username_admin' => 'admin2',
         //     'password_admin' => Hash::make('12345678'),
