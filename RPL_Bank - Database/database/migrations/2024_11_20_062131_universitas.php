@@ -14,14 +14,20 @@ class Universitas extends Migration
     public function up()
     {
         Schema::create('universitas', function (Blueprint $table) {
-            $table->bigIncrements('id_univ');
+            $table->id();
+            $table->unsignedBigInteger('id_admin_instansi')->nullable();
             $table->string('nama_univ')->unique();
             $table->string('alamat_univ');
             $table->string('telp_univ');
             $table->string('jenis_univ');
             $table->string('email_univ')->unique();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending'); // Status validasi
             $table->timestamps();
+
+            $table->foreign('id_admin_instansi')->references('id')->on('akun_admin_instansi')->onDelete('cascade');
         });
+        // mengatur nilai awal auto increment
+        DB::statement('ALTER TABLE universitas AUTO_INCREMENT = 1000');
     }
 
     /**

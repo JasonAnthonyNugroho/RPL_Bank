@@ -19,14 +19,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Universitas::create([
-        //     'nama_univ' => 'UKDW',
-        //     'alamat_univ' => 'Jl.Dagen',
-        //     'telp_univ' => '08826832743279',
-        //     'jenis_univ' => '08826832743279',
-        //     'email_univ' => '08826832743279',
-        // ]);
-
         // AkunAdminBank::create([
         //     'username_admin' => 'admin2',
         //     'password_admin' => Hash::make('12345678'),
@@ -39,8 +31,17 @@ class DatabaseSeeder extends Seeder
         //     'password_instansi' => Hash::make('12345675'),
         // ]);
 
+        // Universitas::create([
+        //     'nama_univ' => 'UKDW',
+        //     'alamat_univ' => 'Jl.Dagen',
+        //     'telp_univ' => '08826832743279',
+        //     'jenis_univ' => '08826832743279',
+        //     'email_univ' => '08826832743279',
+        // ]);
+
+
         SettingHarga::create([
-            'id_univ' => '1',
+            'id_univ' => '1000',
             'spp' => '0',
             'kesehatan' => '0',
             'fasilitas' => '0',
