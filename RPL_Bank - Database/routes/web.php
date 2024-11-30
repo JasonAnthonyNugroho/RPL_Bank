@@ -97,6 +97,7 @@ Route::get('/ValidVa', function () {
 Route::get('/TambahMhs', function () {
     return view('TambahMhs');
 });
+
 Route::post('/check-nim', [PageController::class, 'checkNIM'])->name('checkNIM'); // Route untuk validasi NIM
 Route::post('/check-email', [PageController::class, 'checkEmail'])->name('checkEmail'); // Route untuk validasi email
 Route::post('/check-telpon', [PageController::class, 'checkTelpon'])->name('checkTelpon'); // Route untuk validasi nomor telepon
@@ -107,5 +108,10 @@ Route::post('/setting-harga/update', [PageController::class, 'updatePrices'])->n
 Route::get('/setting-harga', [PageController::class, 'settingHarga'])->name('settingHarga');
 Route::get('/SettingHarga', [PageController::class, 'showSettingHarga'])->name('settingHarga');
 Route::get('/DftMhs', [PageController::class, 'daftarMahasiswa'])->name('daftarMahasiswa');
-Route::get('/mahasiswa/{id}/edit', [PageController::class, 'editMahasiswa'])->name('editMahasiswa');
-Route::put('/mahasiswa/{id}/update', [PageController::class, 'updateMahasiswa'])->name('updateMahasiswa');
+// Route untuk menampilkan form edit mahasiswa (menggunakan GET)
+Route::get('/mahasiswa/${id}/edit', [PageController::class, 'editMahasiswa'])->name('editMahasiswa');
+// Route untuk melakukan update mahasiswa (menggunakan POST atau PUT)
+Route::put('/mahasiswa/${id}/update', [PageController::class, 'updateMahasiswa'])->name('updateMahasiswa');
+Route::post('/mahasiswa/{id}/update', [PageController::class, 'updateMahasiswa'])->name('updateMahasiswa');
+Route::delete('/mahasiswa/{nim}', [PageController::class, 'destroyMahasiswa'])->name('mahasiswa.destroy');
+
