@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +22,8 @@
 
         /* Header Styles */
         header {
-            background-color: #0033a0;  /* Warna biru gelap */
+            background-color: #0033a0;
+            /* Warna biru gelap */
             color: white;
             text-align: center;
             padding: 15px 0;
@@ -187,6 +189,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -225,7 +228,12 @@
                         <td>{{ $mhs->no_va ?? 'N/A' }}</td>
                         <td>
                             <button class="btn-edit" onclick="openEditModal({{ $mhs->id }})">Edit</button>
-                            <a href="#" class="btn-delete">Delete</a>
+                            <form action="{{ route('mahasiswa.destroy', $mhs->nim) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete"
+                                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -241,9 +249,9 @@
     </div>
 
     <div id="editModal">
-        <form id="editForm" method="POST">
+        <form id="editForm" action="" method="POST">
             @csrf
-            @method('PUT') <!-- Tambahkan directive ini -->
+            <!-- Menggunakan method POST karena PUT tidak didukung -->
             <h3>Edit Data Mahasiswa</h3>
             <div>
                 <label for="nama_mhs">Nama:</label>
@@ -281,20 +289,20 @@
 
     <script>
         function openEditModal(id) {
-    document.getElementById('editModal').style.display = 'block';
-    document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('modalOverlay').style.display = 'block';
 
-    fetch(`/mahasiswa/${id}/edit`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('editForm').action = `/mahasiswa/${id}/update`;
-            document.getElementById('nama_mhs').value = data.nama_mhs;
-            document.getElementById('alamat_mhs').value = data.alamat_mhs;
-            document.getElementById('gender_mhs').value = data.gender_mhs;
-            document.getElementById('email_mhs').value = data.email_mhs;
-            document.getElementById('no_telp_mhs').value = data.no_telp_mhs;
-        });
-}
+            fetch(`/mahasiswa/${id}/edit`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('editForm').action = `/mahasiswa/${id}/update`;
+                    document.getElementById('nama_mhs').value = data.nama_mhs;
+                    document.getElementById('alamat_mhs').value = data.alamat_mhs;
+                    document.getElementById('gender_mhs').value = data.gender_mhs;
+                    document.getElementById('email_mhs').value = data.email_mhs;
+                    document.getElementById('no_telp_mhs').value = data.no_telp_mhs;
+                });
+        }
 
         function closeModal() {
             document.getElementById('editModal').style.display = 'none';
@@ -302,4 +310,5 @@
         }
     </script>
 </body>
+
 </html>
