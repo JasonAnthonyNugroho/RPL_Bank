@@ -93,7 +93,7 @@ class PageController extends Controller
             'gender_mhs' => $validatedData['gender'],
             'email_mhs' => $validatedData['email'],
             'no_telp_mhs' => $validatedData['telpon'],
-            'id_univ' => 1,
+            'id_univ' => 1000,
         ]);
 
         return redirect()->back()->with('success', 'Data mahasiswa berhasil ditambahkan!');
@@ -119,7 +119,7 @@ class PageController extends Controller
 
     public function showSettingHarga()
     {
-        $prices = SettingHarga::where('id_univ', 1)->first();
+        $prices = SettingHarga::where('id_univ', 1000)->first();
         return view('SettingHarga', compact('prices'));
     }
 
@@ -141,7 +141,7 @@ class PageController extends Controller
     }
     public function settingHarga()
     {
-        $prices = SettingHarga::where('id_univ', 1)->first();
+        $prices = SettingHarga::where('id_univ', 1000)->first();
 
         if (!$prices) {
             return redirect()->back()->with('error', 'Data harga tidak ditemukan!');
@@ -153,16 +153,27 @@ class PageController extends Controller
     public function daftarMahasiswa()
     {
         // Ambil data mahasiswa dengan id_univ = 1
-        $mahasiswa = Mahasiswa::where('id_univ', 1)->get();
+        $mahasiswa = Mahasiswa::where('id_univ', 1000)->get();
         return view('DftMhs', compact('mahasiswa'));
     }
-    public function editMahasiswa($id)
+    public function editMahasiswa(Request $request)
     {
-        // Cari mahasiswa berdasarkan ID
-        $mahasiswa = Mahasiswa::findOrFail($id);
+        $validatedData = $request->validate([
+            'id_mhs' => 'required|exists:mahasiswa,id', // pastikan ID valid
+            'nama_mhs' => 'required',
+            // validasi lainnya
+        ]);
+    
+        $mahasiswa = Mahasiswa::findOrFail($request->id_mhs);
+        $mahasiswa->update($validatedData);
+    
+        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil diperbarui!');
 
-        // Return view dengan data mahasiswa
-        return response()->json($mahasiswa);
+        // // Cari mahasiswa berdasarkan ID
+        // $mahasiswa = Mahasiswa::findOrFail($id);
+
+        // // Return view dengan data mahasiswa
+        // return response()->json($mahasiswa);
     }
 
     public function updateMahasiswa(Request $request, $id)
@@ -181,5 +192,22 @@ class PageController extends Controller
         $mahasiswa->update($validated);
 
         return redirect()->back()->with('success', 'Data mahasiswa berhasil diperbarui!');
+    }
+
+    public function destroyMahasiswa($nim)
+    {
+        // Find the mahasiswa by ID
+        $mahasiswa = Mahasiswa::find($nim);
+
+        // Check if mahasiswa exists
+        if (!$mahasiswa) {
+            return redirect()->back()->with('error', 'Mahasiswa not found.');
+        }
+
+        // Delete mahasiswa
+        $mahasiswa->delete();
+
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Mahasiswa deleted successfully.');
     }
 }
